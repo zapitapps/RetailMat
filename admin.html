@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VendrAI Admin • Premium KB Control Center</title>
+  <style>
+    :root { --bg:#0B0F1A; --card:#111827; --border:#1F2937; --accent:#25D366; --danger:#ef4444; --purple:#8B5CF6; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family: Inter, system-ui, -apple-system, sans-serif; background:var(--bg); color:#F8FAFC; line-height:1.5; }
+    .header { background:#0F172A; border-bottom:1px solid var(--border); padding:14px 28px; display:flex; justify-content:space-between; align-items:center; }
+    .header h1 { font-size:1.45rem; font-weight:900; letter-spacing:-0.5px; }
+    .container { max-width:1480px; margin:0 auto; padding:24px; }
+    .tabs { display:flex; gap:8px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:6px; }
+    .tab { padding:10px 20px; background:#0F172A; border:none; border-radius:999px; color:#CBD5E1; font-weight:700; font-size:13px; cursor:pointer; transition:all .2s; }
+    .tab.active { background:#25D366; color:#0B0F1A; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px; margin-bottom:22px; box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1); }
+    .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:16px; margin-bottom:24px; }
+    .stat { background:#0F172A; padding:16px; border-radius:14px; text-align:center; border:1px solid #1F2937; }
+    .stat-value { font-size:29px; font-weight:900; color:#25D366; }
+    .filters { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; align-items:center; }
+    .filters input, .filters select { background:#0F172A; border:1px solid var(--border); color:white; padding:9px 14px; border-radius:10px; font-size:13px; }
+    table { width:100%; border-collapse:collapse; font-size:13.5px; }
+    th, td { padding:12px 13px; text-align:left; border-bottom:1px solid var(--border); vertical-align:top; }
+    th { color:#94A3B8; font-weight:700; font-size:12.5px; text-transform:uppercase; letter-spacing:0.5px; }
+    tr:hover { background:#0F172A; }
+    .badge { padding:3px 11px; border-radius:999px; font-size:11px; font-weight:800; display:inline-block; }
+    .status-pending { background:#854d0e; color:#fcd34d; }
+    .status-approved { background:#166534; color:#86efac; }
+    .status-promoted { background:#581c87; color:#c4b5fd; }
+    .btn { padding:7px 16px; border-radius:10px; font-weight:800; font-size:12.5px; cursor:pointer; border:none; transition:all .1s; }
+    .btn-green { background:#25D366; color:#0B0F1A; }
+    .btn-red { background:#ef4444; color:white; }
+    .btn-gray { background:#1F2937; color:#CBD5E1; }
+    .btn-purple { background:#8B5CF6; color:white; }
+    .btn-sm { padding:5px 11px; font-size:11.5px; border-radius:8px; }
+    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:99999; align-items:center; justify-content:center; }
+    .modal.show { display:flex; }
+    .modal-content { background:#111827; border:1px solid #334155; border-radius:18px; width:100%; max-width:720px; padding:28px; max-height:88vh; overflow:auto; }
+    .dialogue-row { font-size:13px; padding:11px 0; border-bottom:1px solid #1F2937; }
+    .keyword-pill { background:#1E2937; color:#94A3B8; padding:2px 8px; border-radius:6px; font-size:11px; margin:1px 3px 1px 0; display:inline-block; }
+    .section-title { font-size:15px; font-weight:800; margin-bottom:10px; color:#CBD5E1; display:flex; align-items:center; gap:8px; }
+    .premium-label { font-size:10px; padding:1px 8px; background:#25D36622; color:#25D366; border-radius:99px; font-weight:800; }
+    .footer-note { font-size:11px; color:#64748B; text-align:center; margin-top:30px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:38px;height:38px;background:linear-gradient(135deg,#25D366,#128C7E);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:19px;">🛡️</div>
+      <div>
+        <h1>VendrAI Admin</h1>
+        <div style="font-size:11px;color:#64748B;">Premium KB • Multi-Tenant Intelligence • World Standard</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <div style="font-size:12px;color:#64748B;font-weight:600;">Platform Admin</div>
+      <button onclick="logout()" class="btn btn-gray">Logout</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- TOP STATS -->
+    <div class="stats" id="statsRow">
+      <div class="stat"><div class="stat-value" id="totalBiz">—</div><div style="font-size:11.5px;color:#64748B;">Businesses</div></div>
+      <div class="stat"><div class="stat-value" id="globalKB">—</div><div style="font-size:11.5px;color:#64748B;">Global Dialogues</div></div>
+      <div class="stat"><div class="stat-value" id="pendingKB">—</div><div style="font-size:11.5px;color:#64748B;">Pending Tenant</div></div>
+      <div class="stat"><div class="stat-value" id="approvedTenant">—</div><div style="font-size:11.5px;color:#64748B;">Approved Tenant</div></div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab(0)">📋 Global Master KB</button>
+      <button class="tab" onclick="switchTab(1)">⏳ Pending Tenant</button>
+      <button class="tab" onclick="switchTab(2)">✅ Approved Tenant</button>
+      <button class="tab" onclick="switchTab(3)">📊 Usage Intelligence</button>
+      <button class="tab" onclick="switchTab(4)">🏢 Businesses</button>
+    </div>
+
+    <!-- GLOBAL KB SECTION -->
+    <div id="tab0" class="tab-content">
+      <div class="card">
+        <div class="section-title">🌍 Global Master Dialogues <span class="premium-label">700+ Premium Triggers</span></div>
+        <div class="filters">
+          <input type="text" id="globalSearch" placeholder="Search keywords or text..." onkeyup="debounce(loadGlobalDialogues, 300)">
+          <select id="globalCategory" onchange="loadGlobalDialogues()">
+            <option value="">All Categories</option>
+            <option value="objection_price">Objection • Price</option>
+            <option value="objection_trust">Objection • Trust</option>
+            <option value="closing_urgency">Closing • Urgency</option>
+            <option value="post_sale_delivery">Post-Sale • Delivery</option>
+            <option value="risk_reversal">Risk Reversal</option>
+            <option value="closing_soft">Closing • Soft</option>
+            <option value="loyalty">Loyalty</option>
+            <option value="social_proof">Social Proof</option>
+            <option value="new_arrivals">New Arrivals</option>
+            <option value="recommend">Recommendations</option>
+          </select>
+          <button onclick="loadGlobalDialogues()" class="btn btn-gray btn-sm">Refresh</button>
+          <button onclick="showCreateGlobalModal()" class="btn btn-purple btn-sm">+ Add New Global</button>
+        </div>
+
+        <table>
+          <thead><tr><th>Category</th><th>Triggers</th><th>English Preview</th><th>Priority</th><th style="width:150px">Actions</th></tr></thead>
+          <tbody id="globalTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PENDING TENANT -->
+    <div id="tab1" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="section-title">⏳ Pending Tenant Dialogues <span class="premium-label">Review &amp; Approve</span></div>
+        <div class="filters">
+          <input type="text" id="pendingSearch" placeholder="Search tenant dialogue..." onkeyup="debounce(loadPending, 320)">
+          <select id="pendingCategory" onchange="loadPending()"><option value="">All</option><option value="objection_price">Objections</option></select>
+          <button onclick="loadPending()" class="btn btn-gray btn-sm">Refresh</button>
+        </div>
+        <table>
+          <thead><tr><th>Business</th><th>Category</th><th>Preview (EN)</th><th>Submitted</th><th style="width:190px">Actions</th></tr></thead>
+          <tbody id="pendingTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- APPROVED TENANT -->
+    <div id="tab2" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="section-title">✅ Approved Tenant Dialogues <span class="premium-label">Ready to Promote</span></div>
+        <table>
+          <thead><tr><th>Business</th><th>Category</th><th>Preview</th><th>Approved</th><th>Actions</th></tr></thead>
+          <tbody id="approvedTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- USAGE INTELLIGENCE -->
+    <div id="tab3" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="section-title">📊 KB Usage Intelligence &amp; Learning Loop</div>
+        <div class="filters">
+          <button onclick="loadUsageLogs()" class="btn btn-gray btn-sm">Load Usage Logs</button>
+          <button onclick="loadTopPerformers()" class="btn btn-purple btn-sm">Show Top Performers</button>
+        </div>
+        <div id="usageContent">
+          <p style="color:#64748B;font-size:13px">Click buttons above to view logs &amp; identify winning dialogues for promotion.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUSINESSES (original) -->
+    <div id="tab4" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="filters">
+          <input type="text" id="bizSearch" placeholder="Search businesses..." onkeyup="debounce(loadBusinesses, 280)">
+          <select id="bizStatus" onchange="loadBusinesses()"><option value="">All</option><option value="active">Active</option><option value="suspended">Suspended</option></select>
+          <button onclick="loadBusinesses()" class="btn btn-gray btn-sm">Refresh Businesses</button>
+        </div>
+        <table id="businessTable">
+          <thead><tr><th>Name</th><th>Email</th><th>Plan</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="businessTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="footer-note">Premium KB Admin • Every dialogue follows strict Premium Response Style • Global + Tenant + Promotion Loop • All actions fully audited</div>
+  </div>
+
+  <!-- EDIT GLOBAL MODAL -->
+  <div id="globalEditModal" class="modal">
+    <div class="modal-content">
+      <h3 style="margin-bottom:14px;">Edit Global Dialogue</h3>
+      <input type="hidden" id="editGlobalId">
+      <div style="margin-bottom:12px;">
+        <label style="font-size:12px;color:#94A3B8">Category</label>
+        <input id="editGlobalCategory" style="width:100%;padding:9px;background:#0F172A;border:1px solid #334155;color:white;border-radius:8px;">
+      </div>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:12px;color:#94A3B8">Trigger Keywords (comma-separated)</label>
+        <textarea id="editGlobalKeywords" rows="2" style="width:100%;padding:9px;background:#0F172A;border:1px solid #334155;color:white;border-radius:8px;font-family:monospace;"></textarea>
+      </div>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:12px;color:#94A3B8">English Response (Premium)</label>
+        <textarea id="editGlobalEn" rows="5" style="width:100%;padding:10px;background:#0F172A;border:1px solid #334155;color:white;border-radius:8px;"></textarea>
+      </div>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:12px;color:#94A3B8">Pidgin Response</label>
+        <textarea id="editGlobalPidgin" rows="3" style="width:100%;padding:10px;background:#0F172A;border:1px solid #334155;color:white;border-radius:8px;"></textarea>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:18px;">
+        <button onclick="saveGlobalEdit()" class="btn btn-green" style="flex:1;">Save Changes</button>
+        <button onclick="closeGlobalModal()" class="btn btn-gray" style="flex:1;">Cancel</button>
+        <button onclick="deactivateGlobal()" class="btn btn-red" style="flex:0.6;">Deactivate</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT TENANT MODAL -->
+  <div id="tenantEditModal" class="modal">
+    <div class="modal-content">
+      <h3 style="margin-bottom:14px;">Review / Edit Tenant Dialogue</h3>
+      <input type="hidden" id="editTenantId">
+      <div id="tenantBizName" style="margin-bottom:8px;font-size:13px;color:#64748B;"></div>
+      
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px">Category</label>
+        <input id="editTenantCategory" style="width:100%;padding:8px;background:#0F172A;border:1px solid #334155;color:white;border-radius:8px;">
+      </div>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px">Keywords</label>
+        <textarea id="editTenantKeywords" rows="2" style="width:100%;padding:8px;background:#0F172A;border:1px solid #334155;color:white;border-radius:8px;"></textarea>
+      </div>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px">English (Premium)</label>
+        <textarea id="editTenantEn" rows="5" style="width:100%;padding:9px;background:#0F172A;border:1px solid #334155;color:white;border-radius:8px;"></textarea>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px;">
+        <button onclick="approveTenantFromModal()" class="btn btn-green" style="flex:1;">Approve &amp; Save</button>
+        <button onclick="rejectTenant()" class="btn btn-red" style="flex:1;">Reject</button>
+        <button onclick="saveTenantEdit()" class="btn btn-gray" style="flex:1;">Save Edit Only</button>
+        <button onclick="closeTenantModal()" class="btn btn-gray">Cancel</button>
+      </div>
+      <div style="margin-top:12px;font-size:11px;color:#64748B;">Once approved, you can promote winning dialogues to global.</div>
+    </div>
+  </div>
+
+  <script>
+    let currentTab = 0;
+    let globalDialogues = [];
+    let pendingDialogues = [];
+
+    function switchTab(tabIndex) {
+      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.tab').forEach((el, i) => el.classList.toggle('active', i === tabIndex));
+      
+      document.getElementById('tab' + tabIndex).style.display = 'block';
+      currentTab = tabIndex;
+
+      if (tabIndex === 0) loadGlobalDialogues();
+      if (tabIndex === 1) loadPending();
+      if (tabIndex === 2) loadApprovedTenant();
+      if (tabIndex === 3) loadUsageLogs();
+      if (tabIndex === 4) loadBusinesses();
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch('/admin/stats', { headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+        const data = await res.json();
+        
+        document.getElementById('totalBiz').textContent = data.stats.totalBusinesses || 0;
+        document.getElementById('globalKB').textContent = data.kbStats?.globalDialogues || 0;
+        document.getElementById('pendingKB').textContent = data.kbStats?.pendingTenant || 0;
+        document.getElementById('approvedTenant').textContent = data.kbStats?.approvedTenant || 0;
+      } catch(e) { console.error(e); }
+    }
+
+    // ================== GLOBAL KB ==================
+    async function loadGlobalDialogues() {
+      const tbody = document.getElementById('globalTableBody');
+      tbody.innerHTML = `<tr><td colspan="5" style="padding:22px;text-align:center;color:#64748B;">Loading premium global dialogues...</td></tr>`;
+
+      const q = document.getElementById('globalSearch').value || '';
+      const cat = document.getElementById('globalCategory').value || '';
+
+      const params = new URLSearchParams({ q, category: cat, page: 1, limit: 28 });
+      const res = await fetch(`/admin/kb/global?${params}`, { headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+      const data = await res.json();
+
+      globalDialogues = data.dialogues || [];
+      renderGlobalTable(globalDialogues);
+    }
+
+    function renderGlobalTable(dialogues) {
+      const tbody = document.getElementById('globalTableBody');
+      tbody.innerHTML = '';
+
+      if (!dialogues.length) {
+        tbody.innerHTML = `<tr><td colspan="5" style="padding:30px;text-align:center;color:#64748B;">No matching global dialogues.</td></tr>`;
+        return;
+      }
+
+      dialogues.forEach(d => {
+        const keywords = (d.trigger_keywords || []).slice(0, 4).map(k => `<span class="keyword-pill">${k}</span>`).join('');
+        const preview = (d.response_en || '').slice(0, 115) + (d.response_en?.length > 115 ? '...' : '');
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><strong>${d.category}</strong><br><span style="font-size:10px;color:#64748B;">${d.priority || 10}</span></td>
+          <td>${keywords}<br><span style="font-size:10px;color:#64748B;">${(d.trigger_keywords||[]).length} keywords</span></td>
+          <td style="max-width:340px;line-height:1.35;font-size:13px;">${preview}</td>
+          <td><span class="badge" style="background:#1e3a8a;color:#93c5fd;">${d.priority || 10}</span></td>
+          <td>
+            <button onclick="editGlobal('${d.id}')" class="btn btn-gray btn-sm">Edit</button>
+            <button onclick="deactivateGlobalPrompt('${d.id}')" class="btn btn-red btn-sm">Deactivate</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    async function editGlobal(id) {
+      const res = await fetch(`/admin/kb/global/${id}`, { headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+      const data = await res.json();
+      const d = data.dialogue;
+
+      document.getElementById('editGlobalId').value = d.id;
+      document.getElementById('editGlobalCategory').value = d.category || '';
+      document.getElementById('editGlobalKeywords').value = (d.trigger_keywords || []).join(', ');
+      document.getElementById('editGlobalEn').value = d.response_en || '';
+      document.getElementById('editGlobalPidgin').value = d.response_pidgin || '';
+
+      document.getElementById('globalEditModal').classList.add('show');
+    }
+
+    async function saveGlobalEdit() {
+      const id = document.getElementById('editGlobalId').value;
+      const payload = {
+        category: document.getElementById('editGlobalCategory').value,
+        trigger_keywords: document.getElementById('editGlobalKeywords').value.split(',').map(s => s.trim()).filter(Boolean),
+        response_en: document.getElementById('editGlobalEn').value,
+        response_pidgin: document.getElementById('editGlobalPidgin').value
+      };
+
+      await fetch(`/admin/kb/global/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': 'demo-admin-key-2026' },
+        body: JSON.stringify(payload)
+      });
+
+      closeGlobalModal();
+      loadGlobalDialogues();
+    }
+
+    function closeGlobalModal() {
+      document.getElementById('globalEditModal').classList.remove('show');
+    }
+
+    async function deactivateGlobalPrompt(id) {
+      if (!confirm('Deactivate this global dialogue from the master KB?')) return;
+      await fetch(`/admin/kb/global/${id}/deactivate`, { method: 'POST', headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+      loadGlobalDialogues();
+    }
+
+    async function deactivateGlobal() {
+      const id = document.getElementById('editGlobalId').value;
+      if (!confirm('Really deactivate?')) return;
+      await fetch(`/admin/kb/global/${id}/deactivate`, { method: 'POST', headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+      closeGlobalModal();
+      loadGlobalDialogues();
+    }
+
+    // ================== PENDING TENANT ==================
+    async function loadPending() {
+      const tbody = document.getElementById('pendingTableBody');
+      tbody.innerHTML = `<tr><td colspan="5" style="padding:26px;text-align:center;color:#64748B;">Loading pending tenant submissions...</td></tr>`;
+
+      const q = document.getElementById('pendingSearch')?.value || '';
+      const cat = document.getElementById('pendingCategory')?.value || '';
+
+      const params = new URLSearchParams({ q, category: cat, page: 1, limit: 22 });
+      const res = await fetch(`/admin/kb/pending?${params}`, { headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+      const data = await res.json();
+
+      pendingDialogues = data.dialogues || [];
+      renderPendingTable(pendingDialogues);
+    }
+
+    function renderPendingTable(dialogues) {
+      const tbody = document.getElementById('pendingTableBody');
+      tbody.innerHTML = '';
+
+      if (!dialogues.length) {
+        tbody.innerHTML = `<tr><td colspan="5" style="padding:25px;text-align:center;color:#64748B;">No pending tenant dialogues.</td></tr>`;
+        return;
+      }
+
+      dialogues.forEach(d => {
+        const preview = (d.response_en || '').slice(0, 95) + '...';
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><strong>${d.businessName || '—'}</strong></td>
+          <td><span class="badge">${d.category}</span></td>
+          <td style="max-width:300px;">${preview}</td>
+          <td style="font-size:12px;color:#64748B;">${new Date(d.created_at).toLocaleDateString()}</td>
+          <td>
+            <button onclick="editTenant('${d.id}', true)" class="btn btn-purple btn-sm">Review</button>
+            <button onclick="quickApprove('${d.id}')" class="btn btn-green btn-sm">Approve</button>
+            <button onclick="quickReject('${d.id}')" class="btn btn-red btn-sm">Reject</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    async function quickApprove(id) {
+      if (!confirm('Approve this tenant dialogue?')) return;
+      await fetch(`/admin/kb/approve/${id}`, { method: 'POST', headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+      loadPending();
+      loadStats();
+    }
+
+    async function quickReject(id) {
+      const reason = prompt('Reason for rejection (optional):') || 'Quality / standards';
+      await fetch(`/admin/kb/reject/${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-key': 'demo-admin-key-2026' }, body: JSON.stringify({ reason }) });
+      loadPending();
+    }
+
+    // ================== APPROVED TENANT ==================
+    async function loadApprovedTenant() {
+      const tbody = document.getElementById('approvedTableBody');
+      tbody.innerHTML = `<tr><td colspan="5" style="padding:26px;text-align:center;color:#64748B;">Loading approved tenant dialogues...</td></tr>`;
+
+      const res = await fetch('/admin/kb/approved-tenant?limit=18', { headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+      const data = await res.json();
+
+      tbody.innerHTML = '';
+      (data.dialogues || []).forEach(d => {
+        const row = document.createElement('tr');
+        const preview = (d.response_en || '').slice(0, 80) + '...';
+        row.innerHTML = `
+          <td><strong>${d.businessName}</strong></td>
+          <td>${d.category}</td>
+          <td style="max-width:300px;">${preview}</td>
+          <td style="font-size:12px;">${d.approved_at ? new Date(d.approved_at).toLocaleDateString() : '—'}</td>
+          <td>
+            <button onclick="promoteToGlobal('${d.id}')" class="btn btn-purple btn-sm">🚀 Promote to Global</button>
+            <button onclick="editTenant('${d.id}', false)" class="btn btn-gray btn-sm">Edit</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    async function promoteToGlobal(tenantId) {
+      if (!confirm('Promote this winning dialogue to the GLOBAL MASTER KB? It will now power every tenant.')) return;
+      
+      const notes = prompt('Notes for promotion (optional):') || 'High-performing tenant dialogue promoted';
+      const res = await fetch(`/admin/kb/promote/${tenantId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': 'demo-admin-key-2026' },
+        body: JSON.stringify({ notes })
+      });
+      const result = await res.json();
+      
+      if (result.success) {
+        alert('✅ SUCCESS! Dialogue promoted to global master KB. All tenants now benefit.');
+        loadApprovedTenant();
+        loadStats();
+        loadGlobalDialogues();
+      } else {
+        alert('Error: ' + (result.error || 'Promotion failed'));
+      }
+    }
+
+    // ================== TENANT EDIT / APPROVE MODAL ==================
+    async function editTenant(id, fromPending = true) {
+      const res = await fetch(`/admin/kb/pending?limit=50`, { headers: { 'x-admin-key': 'demo-admin-key-2026' } }); // fallback fetch
+      const pendingData = await res.json();
+      let d = (pendingData.dialogues || []).find(x => x.id === id);
+
+      if (!d) {
+        const approvedRes = await fetch('/admin/kb/approved-tenant?limit=50', { headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+        const approvedData = await approvedRes.json();
+        d = (approvedData.dialogues || []).find(x => x.id === id);
+      }
+
+      if (!d) return alert('Dialogue not found');
+
+      document.getElementById('editTenantId').value = d.id;
+      document.getElementById('tenantBizName').innerHTML = `<strong>${d.businessName || 'Tenant'}</strong> — ${d.category}`;
+      document.getElementById('editTenantCategory').value = d.category || '';
+      document.getElementById('editTenantKeywords').value = (d.trigger_keywords || []).join(', ');
+      document.getElementById('editTenantEn').value = d.response_en || '';
+
+      document.getElementById('tenantEditModal').classList.add('show');
+    }
+
+    async function saveTenantEdit() {
+      const id = document.getElementById('editTenantId').value;
+      const payload = {
+        category: document.getElementById('editTenantCategory').value,
+        trigger_keywords: document.getElementById('editTenantKeywords').value.split(',').map(s=>s.trim()).filter(Boolean),
+        response_en: document.getElementById('editTenantEn').value
+      };
+      await fetch(`/admin/kb/tenant/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'x-admin-key': 'demo-admin-key-2026' }, body: JSON.stringify(payload) });
+      closeTenantModal();
+      loadPending();
+      loadApprovedTenant();
+    }
+
+    async function approveTenantFromModal() {
+      const id = document.getElementById('editTenantId').value;
+      // First save edits
+      await saveTenantEdit();
+      // Then approve
+      await fetch(`/admin/kb/approve/${id}`, { method: 'POST', headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+      closeTenantModal();
+      loadPending();
+      loadApprovedTenant();
+      loadStats();
+    }
+
+    async function rejectTenant() {
+      const id = document.getElementById('editTenantId').value;
+      const reason = prompt('Reason?') || 'Rejected by admin';
+      await fetch(`/admin/kb/reject/${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-key': 'demo-admin-key-2026' }, body: JSON.stringify({ reason }) });
+      closeTenantModal();
+      loadPending();
+    }
+
+    function closeTenantModal() {
+      document.getElementById('tenantEditModal').classList.remove('show');
+    }
+
+    // ================== USAGE INTELLIGENCE ==================
+    async function loadUsageLogs() {
+      const container = document.getElementById('usageContent');
+      container.innerHTML = `<div style="padding:18px;color:#64748B;">Loading usage logs...</div>`;
+
+      const res = await fetch('/admin/kb/usage-logs?limit=40', { headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+      const data = await res.json();
+
+      let html = `<div style="max-height:280px;overflow:auto;"><table style="font-size:12.5px;"><thead><tr><th>Business</th><th>Trigger</th><th>Used</th><th>Time</th></tr></thead><tbody>`;
+      (data.logs || []).slice(0, 25).forEach(l => {
+        html += `<tr><td>${l.businessName || '—'}</td><td>${(l.matched_keywords || []).slice(0,2).join(', ')}</td><td style="font-size:11px;">${(l.response_used||'').slice(0,42)}...</td><td>${new Date(l.created_at).toLocaleTimeString()}</td></tr>`;
+      });
+      html += `</tbody></table></div>`;
+      container.innerHTML = html;
+    }
+
+    async function loadTopPerformers() {
+      const container = document.getElementById('usageContent');
+      container.innerHTML = `<div style="padding:18px;color:#64748B;">Loading top performers...</div>`;
+
+      const res = await fetch('/admin/kb/top-performers', { headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+      const data = await res.json();
+
+      let html = `<h4 style="margin-bottom:8px;">🏆 Top Performing Dialogues (Learning Loop)</h4><ul style="font-size:13px;">`;
+      (data.topPerformers || []).forEach(t => {
+        html += `<li style="padding:4px 0;">${t.key} — <strong>${t.uses} uses</strong></li>`;
+      });
+      html += `</ul><p style="font-size:12px;margin-top:12px;color:#64748B;">Use these insights to promote top dialogues to global.</p>`;
+      container.innerHTML = html;
+    }
+
+    // ================== BUSINESSES ==================
+    async function loadBusinesses() {
+      const tbody = document.getElementById('businessTableBody');
+      tbody.innerHTML = `<tr><td colspan="5" style="padding:25px;text-align:center;">Loading businesses...</td></tr>`;
+
+      const q = document.getElementById('bizSearch')?.value || '';
+      const status = document.getElementById('bizStatus')?.value || '';
+
+      const params = new URLSearchParams({ q, status, page:1, limit:15 });
+      const res = await fetch(`/admin/businesses?${params}`, { headers: { 'x-admin-key': 'demo-admin-key-2026' } });
+      const data = await res.json();
+
+      tbody.innerHTML = '';
+      (data.businesses || []).forEach(b => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><strong>${b.displayName}</strong></td>
+          <td>${b.email || '—'}</td>
+          <td>${b.plan || 'free'}</td>
+          <td><span class="badge status-${b.status || 'active'}">${(b.status || 'active').toUpperCase()}</span></td>
+          <td>
+            <button onclick="editBusiness('${b.id}')" class="btn btn-gray btn-sm">Edit</button>
+            ${b.status !== 'suspended' ? `<button onclick="suspendBusiness('${b.id}')" class="btn btn-red btn-sm">Suspend</button>` : `<button onclick="unsuspendBusiness('${b.id}')" class="btn btn-green btn-sm">Unsuspend</button>`}
+          </td>`;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Simple stubs for business management
+    async function editBusiness(id) { alert('Open full business edit modal or redirect to full view. ID: ' + id); }
+    async function suspendBusiness(id) { if (confirm('Suspend?')) { await fetch(`/admin/businesses/${id}/suspend`, { method:'POST', headers:{'x-admin-key':'demo-admin-key-2026'} }); loadBusinesses(); } }
+    async function unsuspendBusiness(id) { await fetch(`/admin/businesses/${id}/unsuspend`, { method:'POST', headers:{'x-admin-key':'demo-admin-key-2026'} }); loadBusinesses(); }
+
+    function debounce(fn, delay) {
+      let timeout;
+      return function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn.apply(this, arguments), delay);
+      };
+    }
+
+    function showCreateGlobalModal() {
+      alert('To add a new global dialogue, use the Supabase SQL or submit a tenant dialogue and promote it. Full create UI coming in next iteration.');
+    }
+
+    function logout() { window.location.href = 'index.html'; }
+
+    // INIT
+    window.onload = function() {
+      loadStats();
+      loadGlobalDialogues();
+      // Auto-load first tab
+      setTimeout(() => {
+        document.getElementById('tab0').style.display = 'block';
+      }, 50);
+      
+      // Auto refresh KB stats
+      setInterval(loadStats, 62000);
+    };
+  </script>
+</body>
+</html>
