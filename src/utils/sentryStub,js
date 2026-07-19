@@ -1,0 +1,26 @@
+/**
+ * Sentry / Error Tracking Stub
+ * Replace with real Sentry when ready:
+ * 
+ * const Sentry = require("@sentry/node");
+ * Sentry.init({ dsn: process.env.SENTRY_DSN });
+ */
+const logger = require('./logger');
+
+function captureError(err, context = {}) {
+  logger.error(err.message || err, { 
+    stack: err.stack, 
+    ...context 
+  });
+  
+  // === UNCOMMENT WHEN SENTRY IS CONFIGURED ===
+  // if (process.env.SENTRY_DSN) {
+  //   Sentry.captureException(err, { extra: context });
+  // }
+}
+
+function captureMessage(msg, level = 'info', context = {}) {
+  logger[level](msg, context);
+}
+
+module.exports = { captureError, captureMessage };
