@@ -1,0 +1,70 @@
+/**
+ * Production-grade Auth Middleware — Master Prompt compliant
+ * Supports JWT + legacy session token.
+ * RBAC per-tenant ready.
+ */
+const logger = require('../utils/logger');
+const { verifyAccessToken } = require('../utils/auth');
+
+function requireAuth(supabase) {
+  return async (req, res, next) => {
+    try {
+      const authHeader = req.headers['authorization'] || '';
+      const bearer = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+      const token = bearer || req.headers['x-session-token'] || req.query.token || req.headers['x-auth-token'];
+
+      if (!token) {
+        const err = new Error('Authentication required');
+        err.status = 401;
+        err.code = 'AUTH_REQUIRED';
+        return next(err);
+      }
+
+      // Try JWT first (new path)
+      const jwtPayload = verifyAccessToken(token);
+      if (jwtPayload && jwtPayload.sub) {
+        // Fetch business from DB (trust token for sub)
+        const { data: business } = await supabase
+          .from('businesses')
+          .select('*')
+          .eq('id', jwtPayload.sub)
+          .single();
+
+        if (business) {
+          req.business = business;
+          req.businessId = business.id;
+          req.authMethod = 'jwt';
+          req.user = { id: jwtPayload.sub };
+          return next();
+        }
+      }
+
+      // Fallback legacy sessions table
+      const { data: session } = await supabase
+        .from('sessions')
+        .select('business_id, businesses(*)')
+        .eq('session_token', token)
+        .single();
+
+      if (session && session.businesses) {
+        req.business = session.businesses;
+        req.businessId = session.business_id;
+        req.authMethod = 'session';
+        return next();
+      }
+
+      const err = new Error('Invalid or expired token');
+      err.status = 401;
+      err.code = 'INVALID_TOKEN';
+      return next(err);
+
+    } catch (err) {
+      logger.error('Auth middleware error', { error: err.message });
+      err.status = 500;
+      err.code = 'AUTH_ERROR';
+      next(err);
+    }
+  };
+}
+
+module.exports = { requireAuth };
