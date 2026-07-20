@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta -->
+  <title>VendrAI • Premium AI Sales Assistant for WhatsApp</title>
+  <meta name="description" content="Turn your WhatsApp into a 24/7 premium African sales team. AI that speaks Pidgin, Yoruba, Hausa, Igbo & English. Handles payments, objections, closes deals & runs your full pipeline. Built for Nigerian & African businesses.">
+  <meta name="keywords" content="WhatsApp AI, WhatsApp automation Nigeria, AI sales assistant Africa, WhatsApp bot for business, Nigerian e-commerce, WhatsApp sales pipeline, OPay PalmPay Paystack automation">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vendrai.com/">
+  <meta property="og:title" content="VendrAI • The Premium AI Sales Assistant for WhatsApp">
+  <meta property="og:description" content="Your WhatsApp. A world-class sales team that speaks Nigerian. 700+ premium dialogues, local payments, full sales pipeline — 24/7.">
+  <meta property="og:image" content="https://vendrai.com/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="VendrAI">
+  <meta property="og:locale" content="en_NG">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VendrAI • Premium AI for WhatsApp Sales">
+  <meta name="twitter:description" content="Turn every WhatsApp message into a sale. Built for Africa. 700+ human-grade dialogues. Local payments. Full pipeline automation.">
+  <meta name="twitter:image" content="https://vendrai.com/og-image.jpg">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+    
+    body { font-family: 'Inter', system_ui, sans-serif; }
+    .font-display { font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif; font-weight: 600; }
+    
+    .glass {
+      background: rgba(17, 24, 39, 0.72);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    
+    .premium-gradient { background: linear-gradient(135deg, #0B0F1A 0%, #111827 100%); }
+    
+    .section-header {
+      font-size: 2.75rem; line-height: 1.05; font-weight: 700; letter-spacing: -0.03em;
+    }
+    
+    .nav-link { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .nav-link:hover { color: #25D366; }
+    
+    .feature-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    .feature-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); }
+    
+    .premium-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+    .premium-btn::after {
+      content: ''; position: absolute; top: -50%; left: -100%; width: 50%; height: 200%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+      transition: 0.6s;
+    }
+    .premium-btn:hover::after { left: 200%; }
+    
+    .scroll-reveal { opacity: 0; transform: translateY(40px); transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+    
+    .glassmorphism { background: rgba(255,255,255,0.06); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.1); }
+    
+    .nav-scrolled { background: rgba(11,15,26,0.95); backdrop-filter: blur(20px); }
+    
+    .whatsapp-chat {
+      max-height: 340px; overflow-y: auto; scrollbar-width: none;
+    }
+    .whatsapp-chat::-webkit-scrollbar { display: none; }
+    
+    .chat-bubble {
+      max-width: 78%; padding: 10px 14px; border-radius: 18px; font-size: 13.5px; line-height: 1.35;
+    }
+    .chat-bubble.bot { background: #1F2937; border-bottom-left-radius: 4px; }
+    .chat-bubble.user { background: #25D366; color: #0B0F1A; border-bottom-right-radius: 4px; margin-left: auto; }
+    
+    .testimonial-card { transition: all 0.3s ease; }
+    .testimonial-card:hover { transform: translateY(-4px); }
+    
+    .african-pattern {
+      background-image: url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill-rule=%22evenodd%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V8h-2v16h-4v2h4v4h2v-4h4v-2h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 6v-4H4v4H0v2h4v4h2V8h4V6H6z%22/%3E%3C/g%3E%3C/svg%27');
+      background-size: 60px 60px;
+      opacity: 0.04;
+    }
+    
+    .step-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .step-card:hover {
+      transform: translateY(-4px);
+    }
+    
+    .stat-number {
+      font-variant-numeric: tabular-nums;
+    }
+    
+    .demo-tab {
+      transition: all 0.2s ease;
+    }
+    .demo-tab.active {
+      background: #25D366;
+      color: #0B0F1A;
+      font-weight: 600;
+    }
+    
+    .premium-section {
+      position: relative;
+    }
+    
+    .premium-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+    }
+    
+    .value-prop {
+      transition: all .3s cubic-bezier(0.4,0,0.2,1);
+    }
+    
+    .value-prop:hover {
+      transform: translateY(-2px);
+    }
+    
+    .faq-question {
+      transition: all 0.2s ease;
+    }
+  </style>
+</head>
+<body class="bg-[#0B0F1A] text-white overflow-x-hidden">
+  <!-- NAVBAR -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="max-w-screen-2xl mx-auto">
+      <div class="px-8 py-5 flex items-center justify-between">
+        <div class="flex items-center gap-x-3">
+          <div class="w-11 h-11 bg-gradient-to-br from-[#25D366] to-[#128C7E] rounded-2xl flex items-center justify-center shadow-inner">
+            <i class="fa-solid fa-robot text-white text-3xl"></i>
+          </div>
+          <div>
+            <span class="font-display text-3xl font-bold tracking-tighter">Vendr</span>
+            <span class="font-display text-3xl font-bold tracking-tighter text-[#25D366]">AI</span>
+          </div>
+        </div>
+
+        <div class="hidden md:flex items-center gap-x-9 text-sm">
+          <a href="#features" class="nav-link text-[#CBD5E1] hover:text-white font-medium">Features</a>
+          <a href="#demo" class="nav-link text-[#CBD5E1] hover:text-white font-medium">See it live</a>
+          <a href="#how" class="nav-link text-[#CBD5E1] hover:text-white font-medium">How it works</a>
+          <a href="#testimonials" class="nav-link text-[#CBD5E1] hover:text-white font-medium">Stories</a>
+          <a href="#pricing" class="nav-link text-[#CBD5E1] hover:text-white font-medium">Pricing</a>
+        </div>
+
+        <div class="flex items-center gap-x-3">
+          <a href="easy_signup.html" class="hidden md:inline-flex px-5 py-2.5 text-sm font-semibold text-white/90 hover:text-white transition-colors">Log in</a>
+          <a href="easy_signup.html" class="premium-btn px-7 py-[13px] bg-white text-[#0B0F1A] font-semibold text-sm rounded-3xl flex items-center gap-x-2 hover:bg-white/95 transition-all active:scale-[0.985]">
+            <span>Start free trial</span>
+          </a>
+          <button class="md:hidden w-10 h-10 flex items-center justify-center text-xl" onclick="toggleMobileMenu()">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="pt-24 pb-16 md:pt-28 md:pb-20 relative">
+    <div class="max-w-screen-2xl mx-auto px-6 md:px-8">
+      <div class="grid md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-7 max-w-[680px]">
+          <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-white/5 border border-white/10 mb-6">
+            <div class="w-2 h-2 bg-[#25D366] rounded-full animate-pulse"></div>
+            <span class="text-xs font-semibold tracking-[0.5px] text-white/90">USED BY 1,427+ AFRICAN BUSINESSES</span>
+          </div>
+
+          <h1 class="font-display text-6xl md:text-7xl leading-[1.02] tracking-tighter font-bold">
+            Your WhatsApp.<br>
+            <span class="bg-gradient-to-r from-white via-white to-[#25D366] bg-clip-text text-transparent">A world-class African sales team.</span>
+          </h1>
+          
+          <p class="mt-6 text-xl text-[#CBD5E1] max-w-lg leading-relaxed">
+            Premium AI that speaks Pidgin, Yoruba, Hausa, Igbo &amp; English. Handles objections, local payments (Bank/OPay/PalmPay/Moniepoint), closes deals, and runs your full sales pipeline — 24/7.
+          </p>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-4">
+            <a href="easy_signup.html" class="premium-btn group flex items-center justify-center gap-x-3 bg-[#25D366] hover:bg-[#22c35e] text-[#0B0F1A] font-semibold px-9 py-4 rounded-3xl text-lg transition-all active:scale-[0.985]">
+              <span>Start 14-day free trial</span>
+              <i class="fa-solid fa-arrow-right group-active:translate-x-0.5 transition"></i>
+            </a>
+            <button onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})" class="flex items-center justify-center gap-x-3 px-8 py-4 rounded-3xl border border-white/15 hover:bg-white/5 text-white font-semibold text-lg transition-all">
+              <i class="fa-solid fa-play text-sm"></i>
+              <span>Watch live demo</span>
+            </button>
+          </div>
+
+          <div class="mt-7 flex items-center gap-x-6 text-sm">
+            <div class="flex items-center gap-x-2">
+              <div class="flex -space-x-2">
+                <img src="https://i.pravatar.cc/24?img=28" class="w-6 h-6 rounded-full ring-2 ring-[#0B0F1A]">
+                <img src="https://i.pravatar.cc/24?img=32" class="w-6 h-6 rounded-full ring-2 ring-[#0B0F1A]">
+                <img src="https://i.pravatar.cc/24?img=47" class="w-6 h-6 rounded-full ring-2 ring-[#0B0F1A]">
+                <img src="https://i.pravatar.cc/24?img=64" class="w-6 h-6 rounded-full ring-2 ring-[#0B0F1A]">
+              </div>
+              <span class="text-[#94A3B8] text-sm">Join <span class="font-semibold text-white">1,427</span> founders</span>
+            </div>
+            <div class="hidden sm:flex items-center gap-x-1.5 text-xs px-3 py-1 rounded-2xl bg-white/5 border border-white/10">
+              <i class="fa-solid fa-check text-[#25D366]"></i>
+              <span class="text-white/80">No credit card • Cancel anytime</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero visual -->
+        <div class="md:col-span-5 relative mt-10 md:mt-0">
+          <div class="relative">
+            <div class="demo-window bg-[#111827] border border-white/10 rounded-3xl shadow-2xl overflow-hidden max-w-[340px] mx-auto md:mx-0">
+              <div class="bg-[#0F172A] px-4 py-3 flex items-center gap-x-3 border-b border-white/10">
+                <div class="flex items-center gap-x-1.5">
+                  <div class="w-3 h-3 rounded-full bg-[#25D366]"></div>
+                  <div class="text-xs font-semibold">VendrAI • Amara Hair • Lagos</div>
+                </div>
+              </div>
+              <div class="p-4 bg-[#0B0F1A] space-y-3 text-sm">
+                <div class="flex justify-end"><div class="chat-bubble user">Hello, I saw your new wig collection. How much for the 20-inch?</div></div>
+                <div class="flex gap-2"><div class="w-8 h-8 rounded-2xl bg-gradient-to-br from-[#25D366] to-[#128C7E] flex-shrink-0 flex items-center justify-center text-xs font-bold">VA</div><div class="chat-bubble bot">Hello! The 20-inch is ₦48,000. Very popular right now.</div></div>
+              </div>
+            </div>
+            <div class="absolute -top-3 -right-3 glass px-4 py-1.5 rounded-3xl text-xs font-medium flex items-center gap-x-2">
+              <div class="w-2 h-2 bg-[#25D366] rounded-full animate-pulse"></div>
+              <span class="text-white/90">312 customers chatting now</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <div class="border-t border-white/10 py-8">
+    <div class="max-w-screen-2xl mx-auto px-6 md:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-x-12 gap-y-6 opacity-90 text-sm">
+        <div class="text-center md:text-left text-xs tracking-widest text-white/50">AS SEEN ON</div>
+        <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-2 font-medium text-[#CBD5E1]">
+          <div>TechCabal</div><div>Techpoint Africa</div><div>BusinessDay</div><div>Disrupt Africa</div><div>TechCrunch Africa</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section id="features" class="max-w-screen-2xl mx-auto px-6 md:px-8 py-20">
+    <div class="text-center mb-12">
+      <div class="inline-block px-4 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold tracking-wider mb-3">BUILT FOR AFRICA</div>
+      <h2 class="section-header tracking-tighter">Everything a serious African seller needs.</h2>
+      <p class="mt-3 text-[#94A3B8] max-w-md mx-auto">No generic bots. No foreign payment gateways. Pure African sales intelligence.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="feature-card glass rounded-3xl p-8 border border-white/10">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#25D366] to-[#128C7E] flex items-center justify-center mb-6"><i class="fa-solid fa-comments text-white text-3xl"></i></div>
+        <h3 class="text-2xl font-semibold tracking-tight mb-3">700+ Premium African Dialogues</h3>
+        <p class="text-[#CBD5E1]">Objection handling, closing, risk reversal &amp; post-sale care written by sales experts who understand Nigerian &amp; African buyers. Warm, confident, human.</p>
+        <div class="mt-4 text-xs font-medium text-[#25D366]">Pidgin • Yoruba • Hausa • Igbo • English</div>
+      </div>
+      
+      <div class="feature-card glass rounded-3xl p-8 border border-white/10">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#25D366] to-[#128C7E] flex items-center justify-center mb-6"><i class="fa-solid fa-wallet text-white text-3xl"></i></div>
+        <h3 class="text-2xl font-semibold tracking-tight mb-3">Local Payments That Convert</h3>
+        <p class="text-[#CBD5E1]">Bank transfer, OPay, PalmPay, Moniepoint, Kuda + instant proof verification. Your customers pay the way they already do. Zero friction.</p>
+        <div class="mt-4 flex gap-2 text-xs">
+          <span class="px-3 py-1 bg-white/5 rounded-2xl text-white/80">Bank</span>
+          <span class="px-3 py-1 bg-white/5 rounded-2xl text-white/80">OPay</span>
+          <span class="px-3 py-1 bg-white/5 rounded-2xl text-white/80">PalmPay</span>
+          <span class="px-3 py-1 bg-white/5 rounded-2xl text-white/80">Moniepoint</span>
+        </div>
+      </div>
+      
+      <div class="feature-card glass rounded-3xl p-8 border border-white/10">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#25D366] to-[#128C7E] flex items-center justify-center mb-6"><i class="fa-solid fa-pipe-valve text-white text-3xl"></i></div>
+        <h3 class="text-2xl font-semibold tracking-tight mb-3">Complete Sales Pipeline</h3>
+        <p class="text-[#CBD5E1]">Track leads → negotiate → close → repeat customers. Full CRM built inside WhatsApp with beautiful dashboard. Multi-tenant ready.</p>
+        <div class="mt-3 flex items-center gap-x-2 text-xs text-[#25D366]">
+          <span>Live pipeline</span> • <span>Auto follow-ups</span> • <span>Revenue tracking</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE DEMO SECTION (Scrolling Chat Only - Premium Converting) -->
+  <section id="demo" class="max-w-screen-2xl mx-auto px-6 md:px-8 py-16 bg-[#111827] border-y border-white/10">
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-white/10 mb-3">
+        <i class="fa-solid fa-play mr-1.5"></i> 
+        <span>LIVE CONVERSATION SIMULATION</span>
+      </div>
+      <h2 class="section-header tracking-tighter">Watch real African sales intelligence in action.</h2>
+      <p class="text-[#94A3B8] mt-2 max-w-md mx-auto">Every message uses our 700+ premium dialogues. This is exactly how your customers will be handled.</p>
+    </div>
+
+    <div class="max-w-[720px] mx-auto">
+      <!-- Demo Tabs -->
+      <div class="flex items-center justify-center mb-4 gap-x-2">
+        <button onclick="switchDemoScenario(0)" class="demo-tab active px-5 py-2 text-sm font-medium rounded-3xl flex items-center gap-x-2 bg-[#25D366] text-[#0B0F1A]" id="tab-0">
+          <i class="fa-solid fa-comments"></i>
+          <span>Objection Handling</span>
+        </button>
+        <button onclick="switchDemoScenario(1)" class="demo-tab px-5 py-2 text-sm font-medium rounded-3xl flex items-center gap-x-2 bg-white/5 hover:bg-white/10 border border-white/10" id="tab-1">
+          <i class="fa-solid fa-handshake"></i>
+          <span>Closing the Deal</span>
+        </button>
+        <button onclick="switchDemoScenario(2)" class="demo-tab px-5 py-2 text-sm font-medium rounded-3xl flex items-center gap-x-2 bg-white/5 hover:bg-white/10 border border-white/10" id="tab-2">
+          <i class="fa-solid fa-receipt"></i>
+          <span>Payment &amp; Proof</span>
+        </button>
+      </div>
+
+      <div class="glass rounded-3xl p-1 border border-white/10">
+        <div class="bg-[#0F172A] rounded-[22px] px-4 pt-4 pb-2">
+          <div class="flex items-center gap-x-2 mb-3 px-2">
+            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-[#25D366] to-[#128C7E]"></div>
+            <div class="flex-1">
+              <div class="font-semibold text-sm">VendrAI • Amara Hair • Lagos</div>
+              <div class="text-[10px] text-emerald-400 flex items-center gap-x-1.5">
+                <span>Online • Replies instantly</span> 
+                <span class="px-1.5 py-px bg-emerald-900/70 text-emerald-300 rounded text-[9px]">Premium mode</span>
+              </div>
+            </div>
+            <div class="text-[10px] px-3 py-1 bg-white/5 rounded-2xl flex items-center gap-x-1">
+              <i class="fa-solid fa-globe text-emerald-400"></i>
+              <span class="text-xs font-medium">Multi-lang</span>
+            </div>
+          </div>
+          
+          <div id="scrolling-chat" class="whatsapp-chat h-[320px] space-y-3 pr-2 text-sm">
+            <!-- Populated by JS -->
+          </div>
+          
+          <div class="px-2 pt-3 flex items-center justify-between border-t border-white/10 mt-2">
+            <div class="text-[10px] text-white/30">Live simulation • Premium dialogues active</div>
+            <a href="dashboard.html" class="text-xs flex items-center gap-x-1 text-[#25D366] hover:text-[#22c35e]">
+              <span>View in dashboard</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-center mt-4">
+        <div class="text-center">
+          <div class="text-xs text-white/50">Real objection flow from a Lagos fashion seller using 700+ premium dialogues</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="max-w-screen-2xl mx-auto px-6 md:px-8 py-20">
+    <div class="text-center mb-12">
+      <div class="inline-block px-4 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold tracking-wider mb-3">4 SIMPLE STEPS</div>
+      <h2 class="section-header tracking-tighter">From WhatsApp to sales machine in minutes.</h2>
+      <p class="mt-3 text-[#94A3B8]">No technical knowledge required. Built for busy African founders.</p>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+      <div class="step-card glass rounded-3xl p-6 border border-white/10">
+        <div class="w-9 h-9 flex items-center justify-center bg-gradient-to-br from-[#25D366]/20 to-transparent rounded-2xl mb-5">
+          <span class="font-bold text-[#25D366]">1</span>
+        </div>
+        <h4 class="font-semibold text-lg mb-2">Connect WhatsApp</h4>
+        <p class="text-sm text-[#CBD5E1]">Link your business WhatsApp (Cloud API, Twilio or 360dialog) in under 2 minutes. Works with existing numbers.</p>
+      </div>
+      
+      <div class="step-card glass rounded-3xl p-6 border border-white/10">
+        <div class="w-9 h-9 flex items-center justify-center bg-gradient-to-br from-[#25D366]/20 to-transparent rounded-2xl mb-5">
+          <span class="font-bold text-[#25D366]">2</span>
+        </div>
+        <h4 class="font-semibold text-lg mb-2">Add your knowledge</h4>
+        <p class="text-sm text-[#CBD5E1]">Upload products, prices, policies. Or use our 700+ pre-built premium African dialogues. Global + tenant KB ready.</p>
+      </div>
+      
+      <div class="step-card glass rounded-3xl p-6 border border-white/10">
+        <div class="w-9 h-9 flex items-center justify-center bg-gradient-to-br from-[#25D366]/20 to-transparent rounded-2xl mb-5">
+          <span class="font-bold text-[#25D366]">3</span>
+        </div>
+        <h4 class="font-semibold text-lg mb-2">AI sells for you</h4>
+        <p class="text-sm text-[#CBD5E1]">Every message gets premium response. Handles objections, offers bundles, processes payments &amp; proofs automatically.</p>
+      </div>
+      
+      <div class="step-card glass rounded-3xl p-6 border border-white/10">
+        <div class="w-9 h-9 flex items-center justify-center bg-gradient-to-br from-[#25D366]/20 to-transparent rounded-2xl mb-5">
+          <span class="font-bold text-[#25D366]">4</span>
+        </div>
+        <h4 class="font-semibold text-lg mb-2">Watch revenue grow</h4>
+        <p class="text-sm text-[#CBD5E1]">Real-time pipeline, sales overview, payment bar &amp; broadcast in your dashboard. Close more deals, sleep better.</p>
+        <div class="mt-4">
+          <a href="dashboard.html" class="text-xs flex items-center font-medium text-[#25D366] hover:text-emerald-400">Open dashboard demo →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE AFRICAN ADVANTAGE -->
+  <section class="max-w-screen-2xl mx-auto px-6 md:px-8 py-16 bg-[#111827] border-y border-white/10">
+    <div class="grid lg:grid-cols-12 gap-9 items-center">
+      <div class="lg:col-span-5">
+        <div class="inline-flex px-4 py-1 rounded-full bg-emerald-900/30 text-emerald-400 text-xs font-semibold tracking-wider mb-3">AFRICA-FIRST INTELLIGENCE</div>
+        <h2 class="font-display text-4xl tracking-tighter font-semibold">Built by Africans.<br>For African buyers.</h2>
+        <p class="mt-4 text-[#94A3B8]">We don't translate foreign bots. Every dialogue was written for the way Nigerians, Ghanaians, Kenyans and Senegalese actually buy.</p>
+        
+        <div class="mt-7 space-y-3">
+          <div class="flex items-start gap-x-3">
+            <i class="fa-solid fa-check text-[#25D366] mt-1"></i>
+            <div class="text-sm"><span class="font-semibold">Pidgin fluency</span> that actually converts</div>
+          </div>
+          <div class="flex items-start gap-x-3">
+            <i class="fa-solid fa-check text-[#25D366] mt-1"></i>
+            <div class="text-sm"><span class="font-semibold">Local negotiation</span> psychology (price haggling, bundles, trust)</div>
+          </div>
+          <div class="flex items-start gap-x-3">
+            <i class="fa-solid fa-check text-[#25D366] mt-1"></i>
+            <div class="text-sm"><span class="font-semibold">Payment proof verification</span> built for OPay/PalmPay/Moniepoint</div>
+          </div>
+        </div>
+        
+        <div class="mt-8">
+          <a href="easy_signup.html" class="inline-flex items-center gap-x-2 text-sm font-semibold text-[#25D366] hover:text-emerald-400">See the full 700+ dialogue catalog →</a>
+        </div>
+      </div>
+      
+      <div class="lg:col-span-7">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="value-prop glass rounded-3xl p-5 border border-white/10">
+            <div class="flex items-center mb-3">
+              <i class="fa-solid fa-globe mr-2 text-[#25D366]"></i>
+              <span class="font-medium text-sm">5 Languages</span>
+            </div>
+            <div class="text-lg font-semibold">English + 4 local</div>
+            <div class="text-xs text-[#94A3B8] mt-1">Pidgin, Yoruba, Hausa, Igbo — fluent &amp; culturally accurate</div>
+          </div>
+          
+          <div class="value-prop glass rounded-3xl p-5 border border-white/10">
+            <div class="flex items-center mb-3">
+              <i class="fa-solid fa-handshake mr-2 text-[#25D366]"></i>
+              <span class="font-medium text-sm">Real sales psychology</span>
+            </div>
+            <div class="text-lg font-semibold">Warm • Confident • Human</div>
+            <div class="text-xs text-[#94A3B8] mt-1">Soft CTAs, empathy, urgency, and risk reversal built in</div>
+          </div>
+          
+          <div class="value-prop glass rounded-3xl p-5 border border-white/10">
+            <div class="flex items-center mb-3">
+              <i class="fa-solid fa-chart-line mr-2 text-[#25D366]"></i>
+              <span class="font-medium text-sm">Multi-tenant ready</span>
+            </div>
+            <div class="text-lg font-semibold">Admin + Global KB</div>
+            <div class="text-xs text-[#94A3B8] mt-1">Promote winning dialogues from tenants to global library</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS - STRONGER AFRICAN FOCUS -->
+  <section id="testimonials" class="max-w-screen-2xl mx-auto px-6 md:px-8 py-20">
+    <div class="text-center mb-10">
+      <h2 class="text-3xl font-semibold tracking-tighter">Real African founders. Real results.</h2>
+      <p class="text-sm text-[#94A3B8] mt-1">From Lagos to Dakar. From 1-person businesses to 50+ employee brands.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Testimonial 1 -->
+      <div class="testimonial-card glass p-7 rounded-3xl border border-white/10">
+        <div class="flex gap-1 text-[#25D366] mb-4"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="text-sm">"VendrAI handles my customers in Pidgin better than my sales girls. It closed 19 orders last week while I was in church. The payment proofs feature is a game changer."</p>
+        <div class="mt-6 text-xs"><span class="font-semibold">Amaka Okafor</span><br><span class="text-white/60">Founder, Amara Hair • Lagos</span></div>
+      </div>
+      
+      <!-- Testimonial 2 -->
+      <div class="testimonial-card glass p-7 rounded-3xl border border-white/10">
+        <div class="flex gap-1 text-[#25D366] mb-4"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="text-sm">"The objection handling is crazy good. When customers say 'too expensive', it replies exactly how I would — with value and bundle options. Revenue up 3.8× in two months."</p>
+        <div class="mt-6 text-xs"><span class="font-semibold">Chinedu Eze</span><br><span class="text-white/60">CEO, 4All Fabrics • Abuja</span></div>
+      </div>
+      
+      <!-- Testimonial 3 -->
+      <div class="testimonial-card glass p-7 rounded-3xl border border-white/10">
+        <div class="flex gap-1 text-[#25D366] mb-4"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="text-sm">"My customers in Kano now get replies in Hausa within seconds. The AI even knows how to handle 'aboki' pricing negotiations. This is not just a bot — it's my business partner."</p>
+        <div class="mt-6 text-xs"><span class="font-semibold">Fatima Bello</span><br><span class="text-white/60">Founder, StyleByOla • Kano</span></div>
+      </div>
+      
+      <!-- Testimonial 4 -->
+      <div class="testimonial-card glass p-7 rounded-3xl border border-white/10">
+        <div class="flex gap-1 text-[#25D366] mb-4"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="text-sm">"We sell food in Lagos. The AI takes orders, confirms payment via PalmPay, and sends delivery updates. My team now only handles complex issues. Best investment we've made."</p>
+        <div class="mt-6 text-xs"><span class="font-semibold">Tunde Adebayo</span><br><span class="text-white/60">Co-founder, Lagos Kitchen • Lagos</span></div>
+      </div>
+      
+      <!-- Testimonial 5 -->
+      <div class="testimonial-card glass p-7 rounded-3xl border border-white/10">
+        <div class="flex gap-1 text-[#25D366] mb-4"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="text-sm">"As a beauty brand shipping across West Africa, the multi-language support and pipeline view have been incredible. We now close 4× more deals than before."</p>
+        <div class="mt-6 text-xs"><span class="font-semibold">Aisha Diallo</span><br><span class="text-white/60">Founder, GlowByAisha • Dakar, Senegal</span></div>
+      </div>
+      
+      <!-- Testimonial 6 -->
+      <div class="testimonial-card glass p-7 rounded-3xl border border-white/10">
+        <div class="flex gap-1 text-[#25D366] mb-4"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="text-sm">"I run a small clothing business in Ibadan. VendrAI handles 80% of my WhatsApp inquiries and has increased my average order value by 47%. The bundle suggestions are genius."</p>
+        <div class="mt-6 text-xs"><span class="font-semibold">Kemi Adewale</span><br><span class="text-white/60">Founder, Kemi's Closet • Ibadan</span></div>
+      </div>
+      
+      <!-- Testimonial 7 -->
+      <div class="testimonial-card glass p-7 rounded-3xl border border-white/10">
+        <div class="flex gap-1 text-[#25D366] mb-4"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="text-sm">"My customers always ask for 'discounts'. The AI gives smart bundles and still makes me more money than I used to. Revenue is up 2.9x since switching."</p>
+        <div class="mt-6 text-xs"><span class="font-semibold">Emmanuel Okoro</span><br><span class="text-white/60">Owner, Port Harcourt Electronics • Port Harcourt</span></div>
+      </div>
+      
+      <!-- Testimonial 8 -->
+      <div class="testimonial-card glass p-7 rounded-3xl border border-white/10">
+        <div class="flex gap-1 text-[#25D366] mb-4"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="text-sm">"I used to spend hours on WhatsApp. Now I get daily reports showing closed deals, pending payments and customer sentiment. It's like having a full sales manager."</p>
+        <div class="mt-6 text-xs"><span class="font-semibold">Nana Mensah</span><br><span class="text-white/60">Founder, Accra Essentials • Accra, Ghana</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROVEN RESULTS / STATS -->
+  <section class="max-w-screen-2xl mx-auto px-6 md:px-8 py-16">
+    <div class="text-center mb-10">
+      <h3 class="font-semibold text-2xl tracking-tight">Real numbers from real African businesses</h3>
+    </div>
+    
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+      <div class="glass rounded-3xl p-6 text-center border border-white/10">
+        <div class="text-4xl font-display font-semibold text-[#25D366]">3.8×</div>
+        <div class="text-sm font-medium mt-2">Average revenue increase</div>
+        <div class="text-xs text-[#94A3B8] mt-1">in first 60 days</div>
+      </div>
+      <div class="glass rounded-3xl p-6 text-center border border-white/10">
+        <div class="text-4xl font-display font-semibold text-[#25D366]">94%</div>
+        <div class="text-sm font-medium mt-2">Message response rate</div>
+        <div class="text-xs text-[#94A3B8] mt-1">vs 31% manual</div>
+      </div>
+      <div class="glass rounded-3xl p-6 text-center border border-white/10">
+        <div class="text-4xl font-display font-semibold text-[#25D366]">47%</div>
+        <div class="text-sm font-medium mt-2">Higher average order value</div>
+        <div class="text-xs text-[#94A3B8] mt-1">via smart bundles</div>
+      </div>
+      <div class="glass rounded-3xl p-6 text-center border border-white/10">
+        <div class="text-4xl font-display font-semibold text-[#25D366]">1,427</div>
+        <div class="text-sm font-medium mt-2">Businesses active today</div>
+        <div class="text-xs text-[#94A3B8] mt-1">Across 9 African countries</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING TEASER -->
+  <section id="pricing" class="max-w-screen-2xl mx-auto px-6 md:px-8 py-16">
+    <div class="text-center mb-10">
+      <h2 class="section-header tracking-tighter">Simple pricing for African businesses.</h2>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+      <div class="grid md:grid-cols-3 gap-5">
+        <!-- Starter -->
+        <div class="glass rounded-3xl p-7 border border-white/10">
+          <div>
+            <div class="text-sm font-semibold">STARTER</div>
+            <div class="mt-2 flex items-baseline"><span class="text-5xl font-display font-semibold">₦8,500</span><span class="text-[#94A3B8] ml-1">/mo</span></div>
+          </div>
+          <div class="text-xs text-[#94A3B8] mt-1">Perfect for starting out</div>
+          
+          <ul class="mt-7 space-y-2 text-sm">
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>1,500 messages/mo</span></li>
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>Basic dialogues (250+)</span></li>
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>Local payments</span></li>
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>Simple dashboard</span></li>
+          </ul>
+          <a href="pricing.html" class="mt-8 block text-center py-3 text-sm font-semibold border border-white/20 rounded-3xl hover:bg-white/5">Choose Starter</a>
+        </div>
+        
+        <!-- Growth -->
+        <div class="glass rounded-3xl p-7 border-2 border-[#25D366] relative">
+          <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-[#25D366] text-[#0B0F1A] text-xs px-4 py-1 rounded-full font-bold">MOST POPULAR</div>
+          <div>
+            <div class="text-sm font-semibold">GROWTH</div>
+            <div class="mt-2 flex items-baseline"><span class="text-5xl font-display font-semibold">₦18,000</span><span class="text-[#94A3B8] ml-1">/mo</span></div>
+          </div>
+          <div class="text-xs text-[#94A3B8] mt-1">For scaling businesses</div>
+          
+          <ul class="mt-7 space-y-2 text-sm">
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>Unlimited messages</span></li>
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>Full 700+ premium dialogues</span></li>
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>Full pipeline + broadcast</span></li>
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>Priority support</span></li>
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>Custom branding</span></li>
+          </ul>
+          <a href="easy_signup.html" class="mt-8 block text-center py-3 text-sm font-semibold bg-[#25D366] text-[#0B0F1A] rounded-3xl hover:bg-[#22c35e]">Start 14-day trial</a>
+        </div>
+        
+        <!-- Enterprise -->
+        <div class="glass rounded-3xl p-7 border border-white/10">
+          <div>
+            <div class="text-sm font-semibold">ENTERPRISE</div>
+            <div class="mt-2 flex items-baseline"><span class="text-5xl font-display font-semibold">Custom</span></div>
+          </div>
+          <div class="text-xs text-[#94A3B8] mt-1">For teams &amp; agencies</div>
+          
+          <ul class="mt-7 space-y-2 text-sm">
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>Everything in Growth</span></li>
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>Multi-tenant admin</span></li>
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>Global KB promotion</span></li>
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>API access + webhooks</span></li>
+            <li class="flex gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-1 text-xs"></i> <span>Dedicated support</span></li>
+          </ul>
+          <a href="pricing.html" class="mt-8 block text-center py-3 text-sm font-semibold border border-white/20 rounded-3xl hover:bg-white/5">Contact sales</a>
+        </div>
+      </div>
+      <p class="text-center text-xs text-white/50 mt-6">All plans include 14 days free. No credit card needed. Cancel anytime. Built for African businesses.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="max-w-screen-2xl mx-auto px-6 md:px-8 py-16 bg-[#111827] border-y border-white/10">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-9">
+        <h2 class="font-display text-3xl tracking-tighter">Frequently asked questions</h2>
+      </div>
+      
+      <div class="space-y-3">
+        <div class="glass border border-white/10 rounded-3xl px-6 py-4">
+          <button onclick="toggleFaq(this)" class="faq-question w-full flex items-center justify-between text-left font-medium">
+            <span>Does it work with my existing WhatsApp number?</span>
+            <i class="fa-solid fa-chevron-down transition"></i>
+          </button>
+          <div class="faq-answer hidden pt-3 text-sm text-[#CBD5E1]">Yes. We support WhatsApp Cloud API, Twilio, and 360dialog. You keep your current number — no need for a new one.</div>
+        </div>
+        
+        <div class="glass border border-white/10 rounded-3xl px-6 py-4">
+          <button onclick="toggleFaq(this)" class="faq-question w-full flex items-center justify-between text-left font-medium">
+            <span>How good is the Pidgin and local language support?</span>
+            <i class="fa-solid fa-chevron-down transition"></i>
+          </button>
+          <div class="faq-answer hidden pt-3 text-sm text-[#CBD5E1]">Our 700+ dialogues were written and refined by Nigerian sales experts. The AI speaks authentic Pidgin, Yoruba, Hausa, and Igbo — not just machine translations.</div>
+        </div>
+        
+        <div class="glass border border-white/10 rounded-3xl px-6 py-4">
+          <button onclick="toggleFaq(this)" class="faq-question w-full flex items-center justify-between text-left font-medium">
+            <span>Can customers really pay via OPay / PalmPay?</span>
+            <i class="fa-solid fa-chevron-down transition"></i>
+          </button>
+          <div class="faq-answer hidden pt-3 text-sm text-[#CBD5E1]">Yes. Customers send payment proof via WhatsApp. VendrAI reads and confirms instantly using our local payment verification engine.</div>
+        </div>
+        
+        <div class="glass border border-white/10 rounded-3xl px-6 py-4">
+          <button onclick="toggleFaq(this)" class="faq-question w-full flex items-center justify-between text-left font-medium">
+            <span>What if the AI doesn't know the answer?</span>
+            <i class="fa-solid fa-chevron-down transition"></i>
+          </button>
+          <div class="faq-answer hidden pt-3 text-sm text-[#CBD5E1]">It uses our premium KB first (700+ dialogues + your tenant knowledge), then falls back to our intelligent AI with full context. You can review &amp; approve new dialogues anytime.</div>
+        </div>
+        
+        <div class="glass border border-white/10 rounded-3xl px-6 py-4">
+          <button onclick="toggleFaq(this)" class="faq-question w-full flex items-center justify-between text-left font-medium">
+            <span>Is it safe for multiple businesses (multi-tenant)?</span>
+            <i class="fa-solid fa-chevron-down transition"></i>
+          </button>
+          <div class="faq-answer hidden pt-3 text-sm text-[#CBD5E1]">Yes. Complete separation between tenants. Admins can promote great dialogues to the global library. Full RLS + usage logs included.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="max-w-screen-2xl mx-auto px-6 md:px-8 pb-20">
+    <div class="glass rounded-3xl px-9 py-14 text-center border border-white/10">
+      <h2 class="font-display text-5xl tracking-tighter font-bold">Ready to turn every WhatsApp message<br>into a sale?</h2>
+      <p class="mt-3 text-[#94A3B8]">Join 1,427 African founders growing their business on autopilot.</p>
+      
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="easy_signup.html" class="premium-btn px-10 py-4 bg-[#25D366] hover:bg-[#22c35e] text-[#0B0F1A] font-semibold rounded-3xl text-lg inline-flex items-center justify-center gap-x-2">
+          <span>Start 14-day free trial</span>
+        </a>
+        <a href="pricing.html" class="px-10 py-4 border border-white/20 hover:bg-white/5 font-semibold rounded-3xl text-lg inline-flex items-center justify-center gap-x-2">See full pricing</a>
+      </div>
+      
+      <div class="flex flex-wrap justify-center gap-x-6 gap-y-1 items-center mt-8 text-xs">
+        <div class="flex items-center text-white/50">
+          <i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> 
+          <span>No credit card required</span>
+        </div>
+        <div class="flex items-center text-white/50">
+          <i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> 
+          <span>14-day money-back guarantee</span>
+        </div>
+        <div class="flex items-center text-white/50">
+          <i class="fa-solid fa-check text-emerald-400 mr-1.5"></i> 
+          <span>Cancel anytime</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-white/10 py-9">
+    <div class="max-w-screen-2xl mx-auto px-6 md:px-8 text-xs text-white/50 flex flex-col md:flex-row gap-y-3 md:items-center justify-between">
+      <div>© 2026 VendrAI. Built with ❤️ for African businesses.</div>
+      <div class="flex items-center gap-x-5">
+        <a href="pricing.html" class="hover:text-white">Pricing</a>
+        <a href="dashboard.html" class="hover:text-white">Dashboard</a>
+        <a href="admin.html" class="hover:text-white">Admin Panel</a>
+        <a href="easy_signup.html" class="hover:text-white">Sign up</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Tailwind + Navbar
+    function initAll() {
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        navbar.classList.toggle('nav-scrolled', window.scrollY > 20);
+      });
+
+      // Scroll reveal
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.feature-card, .testimonial-card, .step-card, .value-prop, .scroll-reveal').forEach(el => observer.observe(el));
+
+      // Initialize the demo chat with first scenario
+      initDemoChat(0);
+
+      // Micro interactions
+      document.querySelectorAll('.premium-btn').forEach(btn => {
+        btn.addEventListener('mousedown', () => btn.style.transform = 'scale(0.985)');
+        btn.addEventListener('mouseup', () => btn.style.transform = 'scale(1)');
+        btn.addEventListener('mouseleave', () => btn.style.transform = 'scale(1)');
+      });
+
+      // Keyboard support for demo
+      document.addEventListener('keydown', function(e) {
+        if (e.key === "?") {
+          const chat = document.getElementById('scrolling-chat');
+          if (chat) chat.scrollTop = chat.scrollHeight;
+        }
+      });
+    }
+
+    // Demo chat scenarios
+    let currentScenario = 0;
+    let chatInterval = null;
+
+    const scenarios = [
+      // 0: Objection Handling
+      [
+        { type: 'user', text: 'Hello, I like the new Ankara collection. How much is the Sunset print?' },
+        { type: 'bot', text: 'Hello! The Sunset Ankara is ₦14,800 for 6 yards. It’s one of our fastest moving pieces.' },
+        { type: 'user', text: 'Can you reduce the price a little?' },
+        { type: 'bot', text: 'I understand. If you take 2 pieces I can do ₦27,000. Many customers say it’s the best value.' },
+        { type: 'user', text: 'Hmm, still a bit high for me.' },
+        { type: 'bot', text: 'Totally fair. Would you like me to include our matching headwrap for free? Most ladies love the set.' }
+      ],
+      // 1: Closing the Deal
+      [
+        { type: 'user', text: 'The fabric is nice. I think I’ll take it.' },
+        { type: 'bot', text: 'Fantastic choice! The Sunset Ankara will look amazing on you. Shall I prepare the order?' },
+        { type: 'user', text: 'Yes please. Can you deliver to Lekki today?' },
+        { type: 'bot', text: 'Yes! Delivery to Lekki is ₦1,500. I can have it ready in 2 hours if you confirm now.' },
+        { type: 'user', text: 'Okay, go ahead.' },
+        { type: 'bot', text: 'Perfect! I’ve reserved it for you. Would you like me to add a matching scarf for ₦4,500?' }
+      ],
+      // 2: Payment & Proof
+      [
+        { type: 'user', text: 'How can I pay for this order?' },
+        { type: 'bot', text: 'You can pay with Bank transfer, OPay, PalmPay or Moniepoint. Just send the proof here and I’ll confirm immediately.' },
+        { type: 'user', text: 'I just sent ₦28,500 via PalmPay.' },
+        { type: 'bot', text: 'Thank you! Payment received ✅ Your order has been confirmed. Delivery in 2-3 days.' },
+        { type: 'user', text: 'Can I track it?' },
+        { type: 'bot', text: 'Yes! You’ll receive a tracking link shortly. Anything else I can help you with today?' }
+      ]
+    ];
+
+    function initDemoChat(scenarioIndex) {
+      const chatContainer = document.getElementById('scrolling-chat');
+      if (!chatContainer) return;
+      
+      // Clear previous
+      chatContainer.innerHTML = '';
+      if (chatInterval) clearTimeout(chatInterval);
+      
+      const messages = scenarios[scenarioIndex] || scenarios[0];
+      
+      let index = 0;
+      
+      function addMessage() {
+        if (index >= messages.length) {
+          // Loop back gently after finish
+          setTimeout(() => {
+            chatContainer.innerHTML = '';
+            index = 0;
+            addMessage();
+          }, 3200);
+          return;
+        }
+        
+        const msg = messages[index];
+        const div = document.createElement('div');
+        div.className = `flex ${msg.type === 'user' ? 'justify-end' : ''}`;
+        div.innerHTML = `
+          <div class="chat-bubble ${msg.type === 'user' ? 'user' : 'bot'}">
+            ${msg.text}
+          </div>
+        `;
+        chatContainer.appendChild(div);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        index++;
+        
+        chatInterval = setTimeout(addMessage, 1350);
+      }
+      
+      // Start immediately
+      setTimeout(() => {
+        addMessage();
+      }, 700);
+    }
+
+    function switchDemoScenario(scenarioIndex) {
+      // Update active tab
+      document.querySelectorAll('.demo-tab').forEach((tab, i) => {
+        if (i === scenarioIndex) {
+          tab.classList.add('active', 'bg-[#25D366]', 'text-[#0B0F1A]');
+          tab.classList.remove('bg-white/5', 'hover:bg-white/10', 'border', 'border-white/10');
+        } else {
+          tab.classList.remove('active', 'bg-[#25D366]', 'text-[#0B0F1A]');
+          tab.classList.add('bg-white/5', 'hover:bg-white/10', 'border', 'border-white/10');
+        }
+      });
+      
+      // Reset chat
+      currentScenario = scenarioIndex;
+      initDemoChat(scenarioIndex);
+    }
+
+    function toggleFaq(element) {
+      const answer = element.nextElementSibling;
+      const icon = element.querySelector('i');
+      
+      if (answer.classList.contains('hidden')) {
+        answer.classList.remove('hidden');
+        icon.classList.add('fa-chevron-up');
+        icon.classList.remove('fa-chevron-down');
+      } else {
+        answer.classList.add('hidden');
+        icon.classList.add('fa-chevron-down');
+        icon.classList.remove('fa-chevron-up');
+      }
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.createElement('div');
+      menu.className = 'fixed inset-0 bg-black/90 z-[999] md:hidden';
+      menu.innerHTML = `
+        <div class="bg-[#111827] p-6">
+          <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-x-3"><span class="font-display text-2xl font-bold">VendrAI</span></div>
+            <button onclick="this.closest('.fixed').remove()" class="text-3xl">×</button>
+          </div>
+          <div class="space-y-1 text-lg">
+            <a href="#features" class="block py-3 px-2 hover:bg-white/5 rounded-xl">Features</a>
+            <a href="#demo" class="block py-3 px-2 hover:bg-white/5 rounded-xl">See it live</a>
+            <a href="#how" class="block py-3 px-2 hover:bg-white/5 rounded-xl">How it works</a>
+            <a href="#testimonials" class="block py-3 px-2 hover:bg-white/5 rounded-xl">Stories</a>
+            <a href="#pricing" class="block py-3 px-2 hover:bg-white/5 rounded-xl">Pricing</a>
+          </div>
+          <div class="pt-6 mt-6 border-t border-white/10 space-y-3">
+            <a href="easy_signup.html" class="block py-3 px-2 text-center bg-white/5 hover:bg-white/10 rounded-3xl">Log in</a>
+            <a href="easy_signup.html" class="block py-3 px-2 text-center bg-[#25D366] text-black font-semibold rounded-3xl">Start free trial</a>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(menu);
+    }
+
+    window.onload = function() {
+      initAll();
+    };
+  </script>
+</body>
+</html>
